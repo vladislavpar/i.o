@@ -16,8 +16,8 @@ public class FoodSpawner : MonoBehaviour
         if (Time.time > nextSpawn)
         {
             nextSpawn = Time.time + spawnRate;
-            RandX = Random.Range(-20,20);
-            RandY = Random.Range(20, -20);
+            RandX = Random.Range(-10,10);
+            RandY = Random.Range(10, -10);
             position = new Vector3(RandX,RandY);
             Instantiate(food, position, Quaternion.identity);
         }

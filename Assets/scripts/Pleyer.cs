@@ -4,12 +4,13 @@ using UnityEngine;
 
 public class Pleyer:MonoBehaviour
 {
-    [SerializeField] int speed;
+    [SerializeField] float speed;
     [SerializeField] Rigidbody2D rigidbody;
     private float vertical = 1;
-    public float weight = 1;
+    public static float weight = 1;
     [SerializeField] Collider2D collider;
-    [SerializeField] float weightgain;
+    public static float weightgain;
+    [SerializeField] GameObject food;
 
     private void Start()
     {
@@ -20,23 +21,24 @@ public class Pleyer:MonoBehaviour
         rigidbody = GetComponent<Rigidbody2D>();
         
     }
-    void Update()
+    private void FixedUpdate()
     {
         float movementx = Input.GetAxis("Horizontal");
-        transform.position += new Vector3(movementx, 0, 0) * speed * Time.deltaTime;
+        transform.position += new Vector3(movementx, 0, 0) * speed;
         if (Input.GetKey(KeyCode.W))
         {
-            transform.position += new Vector3(0, vertical, 0) * speed * Time.deltaTime;
+            transform.position += new Vector3(0, vertical, 0) * speed;
         }
         if (Input.GetKey(KeyCode.S))
         {
-            transform.position += new Vector3(0, -vertical, 0) * speed * Time.deltaTime;
+            transform.position += new Vector3(0, -vertical, 0) * speed;
         }
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log("onTrigerEnter");
+        weightgain = DifferentFood.size / 10;
+        Destroy(collision.gameObject);
         weight = weight + weightgain;
-        transform.localScale += new Vector3(weight, weight, weight);
+        transform.localScale = new Vector3(weight, weight, weight);
     }
 } 
