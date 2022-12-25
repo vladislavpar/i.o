@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class DifferentFood: MonoBehaviour
 {
-    public static float size;
+    public float size;
     // Start is called before the first frame update
     void Start()
     {
-        size = Random.RandomRange(1,3);
+        size = Random.RandomRange(0.5f, 1.5f);
         transform.localScale = new Vector3(size, size, size);
     }
 }
