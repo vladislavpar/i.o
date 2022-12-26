@@ -10,7 +10,6 @@ public class Pleyer:MonoBehaviour
     public float weight = 1;
     [SerializeField] Collider2D collider;
     public float weightgain;
-    [SerializeField] GameObject food;
     [SerializeField] GameObject PanelDie;
     [SerializeField] GameObject PanelWin;
 
@@ -18,6 +17,7 @@ public class Pleyer:MonoBehaviour
     {
         PanelWin.SetActive(false);
         PanelDie.SetActive(false);
+        Time.timeScale = 1;
     }
     private void Update()
     {
@@ -34,26 +34,22 @@ public class Pleyer:MonoBehaviour
         if (weight <= 0)
         {
             PanelDie.SetActive(true);
+            Time.timeScale = 0;
         }
-        if (weight >= 10)
+        if (weight >= 30)
         {
             PanelWin.SetActive(true);
+            Time.timeScale = 0;
         }
+    }
+    void NewWeigth()
+    {
+        transform.localScale = new Vector3(weight, weight, weight);
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        weightgain = weightgain + food.GetComponent<DifferentFood>().size;
-        weight = weight + weightgain;
-        transform.localScale = new Vector3(weight, weight, weight);
-        if (weightgain >= 1)
-        {
-            Debug.Log("Destroy");
-            Destroy(collision.gameObject);
-        }
-        Debug.Log("AndTrigger");
-    }
-    void die()
-    {
-        Destroy(this.gameObject);
+        weight = weight + collision.GetComponent<DifferentFood>().size;
+        NewWeigth();
+        Destroy(collision.gameObject);
     }
 } 

@@ -11,26 +11,32 @@ public class FoodSpawner : MonoBehaviour
     private float nextSpawn = 0.001f;
     [SerializeField] float RandY;
     [SerializeField] GameObject BadFood;
+    [SerializeField] int FoodRestrictions;
     // Update is called once per frame
     void Update()
     {
-        if (Time.time > nextSpawn)
+        if (FoodRestrictions <= 20)
         {
-            if (Random.RandomRange(1,3)==1)
+            if (Time.time > nextSpawn)
             {
-                nextSpawn = Time.time + spawnRate;
-                RandX = Random.Range(-100, 100);
-                RandY = Random.Range(100, -100);
-                position = new Vector3(RandX, RandY);
-                Instantiate(food, position, Quaternion.identity);
-            }
-            else
-            {
-                nextSpawn = Time.time + spawnRate;
-                RandX = Random.Range(-100, 100);
-                RandY = Random.Range(100, -100);
-                position = new Vector3(RandX, RandY);
-                Instantiate(BadFood, position, Quaternion.identity);
+                if (Random.RandomRange(1, 3) == 1)
+                {
+                    nextSpawn = Time.time + spawnRate;
+                    RandX = Random.Range(-100, 100);
+                    RandY = Random.Range(100, -100);
+                    position = new Vector3(RandX, RandY);
+                    Instantiate(food, position, Quaternion.identity);
+                    FoodRestrictions = FoodRestrictions + 1;
+                }
+                else
+                {
+                    nextSpawn = Time.time + spawnRate;
+                    RandX = Random.Range(-100, 100);
+                    RandY = Random.Range(100, -100);
+                    position = new Vector3(RandX, RandY);
+                    Instantiate(BadFood, position, Quaternion.identity);
+                    FoodRestrictions = FoodRestrictions + 1;
+                }
             }
         }
     }
