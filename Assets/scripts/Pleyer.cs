@@ -44,12 +44,12 @@ public class Pleyer:MonoBehaviour
     }
     void NewWeigth()
     {
-        transform.localScale = new Vector3(weight, weight, weight);
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
         weight = weight + collision.GetComponent<DifferentFood>().size;
         NewWeigth();
+        transform.localScale = new Vector3(weight, weight, weight);
         Destroy(collision.gameObject);
     }
 } 
