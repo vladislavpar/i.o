@@ -5,10 +5,20 @@ using UnityEngine;
 public class DifferentFood: MonoBehaviour
 {
     public float size;
-    // Start is called before the first frame update
+    [SerializeField] GameObject spawner;
+    public int time;
+    [SerializeField] int endTime;
     void Start()
     {
         size = Random.RandomRange(0.05f, 0.15f);
         transform.localScale = new Vector3(size * 10, size * 10, size * 10);
+    }
+    protected void FixedUpdate()
+    {
+        time = time + 1;
+        if (endTime <= time)
+        {
+            Destroy(this.gameObject);
+        }
     }
 }

@@ -113,3 +113,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   size: 0
+  spawner: {fileID: 3452530403619191691, guid: dc7899c8bb475624783428f6cf10e8c1, type: 3}
+  time: 0
+  endTime: 1000
+  collider: {fileID: 0}

@@ -113,4 +113,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   size: 0
+  spawner: {fileID: 3452530403619191691, guid: dc7899c8bb475624783428f6cf10e8c1, type: 3}
+  endTime: 1000
   food: {fileID: 2659653363930477373, guid: fa603f81baf62a64394ac048f8003eee, type: 3}
