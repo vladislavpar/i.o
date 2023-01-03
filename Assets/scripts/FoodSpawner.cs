@@ -11,13 +11,11 @@ public class FoodSpawner : MonoBehaviour
     private float nextSpawn = 0.001f;
     [SerializeField] float RandY;
     [SerializeField] GameObject BadFood;
-    [SerializeField] GameObject player;
-    private Transform playersTransform;
+    [SerializeField] Transform playersTransform;
     void Update()
     {
         if (Time.time > nextSpawn)
         {
-            playersTransform = player.GetComponent<Transform>();
             if (Random.RandomRange(1, 3) == 1)
             {
                 nextSpawn = Time.time + spawnRate;
