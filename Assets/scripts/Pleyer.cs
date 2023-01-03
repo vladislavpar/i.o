@@ -1,6 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
+
 
 public class Pleyer:MonoBehaviour
 {
@@ -13,6 +16,7 @@ public class Pleyer:MonoBehaviour
     [SerializeField] GameObject PanelDie;
     [SerializeField] GameObject PanelWin;
     [SerializeField] GameObject spawner;
+    [SerializeField] Image FoodImage;
     private void Start()
     {
         PanelWin.SetActive(false);
@@ -36,7 +40,7 @@ public class Pleyer:MonoBehaviour
             PanelDie.SetActive(true);
             Time.timeScale = 0;
         }
-        if (weight >= 30)
+        if (weight >= 20)
         {
             PanelWin.SetActive(true);
             Time.timeScale = 0;
@@ -45,16 +49,8 @@ public class Pleyer:MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         weight = weight + collision.GetComponent<DifferentFood>().size;
-        if (collision.GetComponent<DifferentFood>().size <= weight / 10) 
-        {
-            transform.localScale = new Vector3(weight, weight, weight);
-            Destroy(collision.gameObject);
-        }
-        else if (collision.GetComponent<DifferentFood>().size >= weight / 10)
-        {
-            collision.GetComponent<DifferentFood>().size = collision.GetComponent<DifferentFood>().size - collision.GetComponent<DifferentFood>().size - 0.05f;
-            Instantiate(collision);
-            Instantiate(collision);
-        }
+        transform.localScale = new Vector3(weight, weight, weight);
+        FoodImage.fillAmount += collision.GetComponent<DifferentFood>().size / 25;
+        Destroy(collision.gameObject);
     }
 } 

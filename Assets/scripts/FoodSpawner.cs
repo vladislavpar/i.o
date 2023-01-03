@@ -19,18 +19,18 @@ public class FoodSpawner : MonoBehaviour
         {
             playersTransform = player.GetComponent<Transform>();
             if (Random.RandomRange(1, 3) == 1)
-                {
+            {
                 nextSpawn = Time.time + spawnRate;
-                RandX = Random.Range(-30 + playersTransform.position.x,30 + playersTransform.position.x);
-                RandY = Random.Range(30 + playersTransform.position.y,-30 + playersTransform.position.y);
+                RandX = Random.Range(-30 + playersTransform.position.x - playersTransform.localScale.x*2, 30 + playersTransform.position.x + playersTransform.localScale.x*2);
+                RandY = Random.Range(30 + playersTransform.position.y + playersTransform.localScale.y*2, -30 + playersTransform.position.y - playersTransform.localScale.y);
                 position = new Vector3(RandX, RandY);
                 Instantiate(food, position, Quaternion.identity);
             }
             else
             {
                 nextSpawn = Time.time + spawnRate;
-                RandX = Random.Range(-30 + playersTransform.position.x, 30 + playersTransform.position.x);
-                RandY = Random.Range(30 + playersTransform.position.y, -30 + playersTransform.position.y);
+                RandX = Random.Range(-30 + playersTransform.position.x -playersTransform.localScale.x*2, 30 + playersTransform.position.x + playersTransform.localScale.x*2);
+                RandY = Random.Range(30 + playersTransform.position.y + playersTransform.localScale.y*2, -30 + playersTransform.position.y - playersTransform.localScale.y*2);
                 position = new Vector3(RandX, RandY);
                 Instantiate(BadFood, position, Quaternion.identity);
             }
