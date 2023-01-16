@@ -1,24 +1,40 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class DifferentFood: MonoBehaviour
 {
+    [SerializeField] int lifeTime;
+    
     public float size;
-    [SerializeField] GameObject spawner;
-    public int time;
-    [SerializeField] int endTime;
+    private IEnumerator liveCoroutine;
+    
     void Start()
+    {
+        OnStart();
+        liveCoroutine = LiveCoroutine();
+        StartCoroutine(liveCoroutine);
+    }
+
+    protected virtual void OnStart()
     {
         size = Random.RandomRange(0.05f, 0.1f);
         transform.localScale = new Vector3(size * 10, size * 10, size * 10);
     }
-    protected void FixedUpdate()
+
+    private void OnDestroy()
     {
-        time = time + 1;
-        if (endTime <= time)
+        if (liveCoroutine != null)
         {
-            Destroy(this.gameObject);
+            StopCoroutine(liveCoroutine);
         }
+    }
+
+    private IEnumerator LiveCoroutine()
+    {
+        yield return new WaitForSeconds(lifeTime);
+        Destroy(gameObject);
     }
 }

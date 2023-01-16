@@ -1,38 +1,66 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class FoodSpawner : MonoBehaviour
 {
     [SerializeField] GameObject food;
     [SerializeField] float RandX;
     [SerializeField] Vector3 position;
-    private float spawnRate = 0.1f;
-    private float nextSpawn = 0.001f;
     [SerializeField] float RandY;
     [SerializeField] GameObject BadFood;
     [SerializeField] Transform playersTransform;
-    void Update()
+    [SerializeField] Transform goodFoodParent;
+    [SerializeField] Transform badFoodParent;
+    
+    private float spawnRateGood = 0.05f;
+    private float spawnRateBad = 0.1f;
+
+    private void Start()
     {
-        if (Time.time > nextSpawn)
+        StartCoroutine(SpawnGoodFoodCoroutine());
+        StartCoroutine(SpawnBadFoodCoroutine());
+    }
+
+    private IEnumerator SpawnGoodFoodCoroutine()
+    {
+        while (true)
         {
-            if (Random.RandomRange(1, 3) == 1)
-            {
-                nextSpawn = Time.time + spawnRate;
-                RandX = Random.Range(-30 + playersTransform.position.x - playersTransform.localScale.x*2, 30 + playersTransform.position.x + playersTransform.localScale.x*2);
-                RandY = Random.Range(30 + playersTransform.position.y + playersTransform.localScale.y*2, -30 + playersTransform.position.y - playersTransform.localScale.y);
-                position = new Vector3(RandX, RandY);
-                Instantiate(food, position, Quaternion.identity);
-            }
-            else
-            {
-                nextSpawn = Time.time + spawnRate;
-                RandX = Random.Range(-30 + playersTransform.position.x -playersTransform.localScale.x*2, 30 + playersTransform.position.x + playersTransform.localScale.x*2);
-                RandY = Random.Range(30 + playersTransform.position.y + playersTransform.localScale.y*2, -30 + playersTransform.position.y - playersTransform.localScale.y*2);
-                position = new Vector3(RandX, RandY);
-                Instantiate(BadFood, position, Quaternion.identity);
-            }
+            RandX = GetRandomX();
+            RandY = GetRandomY();
             
+            position = new Vector3(RandX, RandY);
+            Instantiate(food, position, Quaternion.identity, goodFoodParent);
+
+            yield return new WaitForSeconds(spawnRateGood);
         }
+    }
+
+    private IEnumerator SpawnBadFoodCoroutine()
+    {
+        while (true)
+        {
+            RandX = GetRandomX();
+            RandY = GetRandomY();
+            
+            position = new Vector3(RandX, RandY);
+            Instantiate(BadFood, position, Quaternion.identity, badFoodParent);
+
+            yield return new WaitForSeconds(spawnRateBad);
+        }
+    }
+
+    private float GetRandomX()
+    {
+        return Random.Range(-30 + playersTransform.position.x - playersTransform.localScale.x * 2,
+            30 + playersTransform.position.x + playersTransform.localScale.x * 2);
+    }
+    
+    private float GetRandomY()
+    {
+        return Random.Range(30 + playersTransform.position.y + playersTransform.localScale.y*2, 
+            -30 + playersTransform.position.y - playersTransform.localScale.y);
     }
 }
