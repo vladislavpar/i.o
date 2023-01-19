@@ -7,6 +7,6 @@ public class CameraMove : MonoBehaviour
     [SerializeField] Pleyer pleyer;
     private void Update()
     {
-        transform.position = Vector3.Lerp(transform.position, new Vector3(pleyer.transform.position.x, pleyer.transform.position.y, transform.position.z), 0.25f);
+        transform.position = Vector3.Lerp(transform.position, new Vector3(pleyer.transform.position.x, pleyer.transform.position.y,-pleyer.transform.localScale.y -10), 0.25f);
     }
 }

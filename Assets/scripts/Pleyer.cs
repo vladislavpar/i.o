@@ -28,15 +28,21 @@ public class Pleyer:MonoBehaviour
     
     private void Update()
     {
-        float movementx = Input.GetAxis("Horizontal");
-        transform.position += new Vector3(movementx, 0, 0) * speed * Time.deltaTime;
         if (Input.GetKey(KeyCode.W))
         {
-            transform.position += new Vector3(0, vertical, 0) * speed * Time.deltaTime;
+            transform.position = Vector3.Lerp(transform.position, new Vector3(transform.position.x, transform.position.y + speed, transform.position.z), 0.25f);
+        }
+        if (Input.GetKey(KeyCode.A))
+        {
+            transform.position = Vector3.Lerp(transform.position, new Vector3(transform.position.x - speed, transform.position.y, transform.position.z), 0.25f);
+        }
+        if (Input.GetKey(KeyCode.D))
+        {
+            transform.position = Vector3.Lerp(transform.position, new Vector3(transform.position.x + speed, transform.position.y, transform.position.z), 0.25f);
         }
         if (Input.GetKey(KeyCode.S))
         {
-            transform.position += new Vector3(0, -vertical, 0) * speed * Time.deltaTime;
+            transform.position = Vector3.Lerp(transform.position, new Vector3(transform.position.x,transform.position.y - speed, transform.position.z), 0.25f);
         }
         if (weight <= 0)
         {
@@ -53,10 +59,18 @@ public class Pleyer:MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         var food = collision.GetComponent<DifferentFood>();
-        
-        weight = weight + food.size;
-        transform.localScale = new Vector3(weight, weight, weight);
-        FoodImage.fillAmount += food.size / 25;
-        Destroy(collision.gameObject);
+        if (food.size <= weight/10)
+        {
+            weight = weight + food.size;
+            transform.localScale = new Vector3(weight, weight, weight);
+            FoodImage.fillAmount += food.size / 25;
+            Destroy(collision.gameObject);
+        }
+        else
+        {
+            food.transform.localScale = new Vector3(food.transform.localScale.x / 2, food.transform.localScale.y / 2);
+            food.size = food.size / 2;
+            FoodImage.fillAmount += food.size / 50;
+        }
     }
 } 
