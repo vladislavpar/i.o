@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-
+using System;
 
 public class Pleyer:MonoBehaviour
 {
+    public event Action<float> DieEndWin;
+
     [SerializeField] float speed;
     [SerializeField] Rigidbody2D rigidbody;
     [SerializeField] GameObject PanelDie;
@@ -25,7 +27,6 @@ public class Pleyer:MonoBehaviour
         PanelDie.SetActive(false);
         Time.timeScale = 1;
     }
-    
     private void Update()
     {
         if (Input.GetKey(KeyCode.W))
@@ -44,15 +45,9 @@ public class Pleyer:MonoBehaviour
         {
             transform.position = Vector3.Lerp(transform.position, new Vector3(transform.position.x,transform.position.y - speed, transform.position.z), 0.25f);
         }
-        if (weight <= 0)
+        if (weight <= 0 || weight > 20)
         {
-            PanelDie.SetActive(true);
-            Time.timeScale = 0;
-        }
-        if (weight >= 20)
-        {
-            PanelWin.SetActive(true);
-            Time.timeScale = 0;
+            DieEndWin?.Invoke(weight);
         }
     }
     
