@@ -16,10 +16,14 @@ public class Pleyer:MonoBehaviour
     [SerializeField] GameObject spawner;
     [SerializeField] Image FoodImage;
     [SerializeField] Collider2D collider;
-    
+    [SerializeField] TextMeshProUGUI rooting_time;
+
     private float vertical = 1;
     public float weight = 1;
     public float weightgain;
+
+    private bool stop_coroutine = true;
+    private float time;
     
     private void Start()
     {
@@ -66,6 +70,33 @@ public class Pleyer:MonoBehaviour
             food.transform.localScale = new Vector3(food.transform.localScale.x / 2, food.transform.localScale.y / 2);
             food.size = food.size / 2;
             FoodImage.fillAmount += food.size / 50;
+        }
+    }
+    private IEnumerator speed_up_coroutine()
+    {
+        stop_coroutine = true;
+        while (stop_coroutine)
+        {
+            weight = weight - speed;
+            speed = speed + 0.2f;
+            for (int i = 0; i < time*10; i++)
+            {
+                rooting_time.text = " Rooting Time : " + (i - time);
+                yield return new WaitForSeconds(1f);
+            }
+            speed = 0.2f;
+            stop_coroutine = false;
+        }
+        rooting_time.text = " Rooting Time : nothing";
+        time = 0;
+        StopCoroutine("speed_up_coroutine");
+    }
+    public void speed_up()
+    {
+        if (weight >= 1)
+        {
+            time = time + weight;
+            StartCoroutine("speed_up_coroutine");
         }
     }
 } 

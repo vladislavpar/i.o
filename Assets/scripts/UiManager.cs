@@ -54,10 +54,12 @@ public class UiManager : MonoBehaviour
         if (weighe > 20)
         {
             WIN.SetActive(true);
+            Time.timeScale = 0;
         }
         else
         {
             Die.SetActive(true);
+            Time.timeScale = 0;
         }
     }
 }
