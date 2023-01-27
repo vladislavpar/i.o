@@ -4006,6 +4006,7 @@ MonoBehaviour:
   rooting_time: {fileID: 77185713}
   weight: 1
   weightgain: 0
+  scaleModificator: 50
 --- !u!1 &1897671523
 GameObject:
   m_ObjectHideFlags: 0

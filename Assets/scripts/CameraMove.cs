@@ -5,9 +5,14 @@ using UnityEngine;
 public class CameraMove : MonoBehaviour
 {
     [SerializeField] Pleyer pleyer;
+    private Vector3 newPosition;
+    
     private void Update()
     {
-        transform.position = new Vector3(transform.position.x, transform.position.y, -pleyer.weight -10);
-        transform.position = Vector3.Lerp(transform.position, new Vector3(pleyer.transform.position.x, transform.position.y), 0.25f);
+        newPosition.z = -pleyer.weight - 10;
+        newPosition.x = pleyer.transform.position.x;
+        newPosition.y = pleyer.transform.position.y;
+        
+        transform.position = Vector3.Lerp(transform.position, newPosition, 0.1f);
     }
 }

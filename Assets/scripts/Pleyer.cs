@@ -21,6 +21,7 @@ public class Pleyer:MonoBehaviour
     private float vertical = 1;
     public float weight = 1;
     public float weightgain;
+    public float scaleModificator = 10;
 
     private bool stop_coroutine = true;
     private float time;
@@ -33,23 +34,28 @@ public class Pleyer:MonoBehaviour
     }
     private void Update()
     {
+        Vector3 direction = Vector3.zero;
+        
         if (Input.GetKey(KeyCode.W))
         {
-            transform.position = Vector3.Lerp(transform.position, new Vector3(transform.position.x, transform.position.y + speed, transform.position.z), 0.25f);
+            direction.y += 1;
         }
         if (Input.GetKey(KeyCode.A))
         {
-            transform.position = Vector3.Lerp(transform.position, new Vector3(transform.position.x - speed, transform.position.y, transform.position.z), 0.25f);
+            direction.x -= 1;
         }
         if (Input.GetKey(KeyCode.D))
         {
-            transform.position = Vector3.Lerp(transform.position, new Vector3(transform.position.x + speed, transform.position.y, transform.position.z), 0.25f);
+            direction.x += 1;
         }
         if (Input.GetKey(KeyCode.S))
         {
-            transform.position = Vector3.Lerp(transform.position, new Vector3(transform.position.x,transform.position.y - speed, transform.position.z), 0.25f);
+            direction.y -= 1;
         }
-        if (weight <= 0 || weight > 2000)
+
+        transform.position = Vector3.Lerp(transform.position, transform.position + direction * speed, 0.1f);
+        
+        if (weight <= 0 || weight > GameConfig.MaxWeight)
         {
             DieEndWin?.Invoke(weight);
         }
@@ -61,21 +67,19 @@ public class Pleyer:MonoBehaviour
         if (food.size <= weight/3)
         {
             weight = weight + food.size;
-            transform.localScale = new Vector3(weight/10, weight/10, weight/10);
             FoodImage.fillAmount += food.size /25 ;
             Destroy(collision.gameObject);
         }
         else
         {
-            food.transform.localScale = new Vector3(food.transform.localScale.x / 2, food.transform.localScale.y / 2);
-            if (food.size <= 1)
-            {
-                weight = weight + food.size;
-                transform.localScale = new Vector3(weight/10, weight/10, weight/10);
-            }
             food.size = food.size / 2;
+            weight = weight + food.size;
             FoodImage.fillAmount += food.size / 150;
         }
+
+        var weightInPercent = weight  / GameConfig.MaxWeight;
+        var scaleModificator = weightInPercent * GameConfig.MaxScale + 1;
+        transform.localScale = Vector3.one * scaleModificator;
     }
     private IEnumerator speed_up_coroutine()
     {

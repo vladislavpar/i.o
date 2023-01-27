@@ -10,7 +10,6 @@ public class DifferentFood: MonoBehaviour
     
     public int size;
 
-    private float Food_size;
     private IEnumerator liveCoroutine;
     
     void Start()
@@ -22,9 +21,12 @@ public class DifferentFood: MonoBehaviour
 
     protected virtual void OnStart()
     {
-        size = Random.RandomRange(1,5);
-        Food_size = Random.RandomRange(0.5f,5f);
-        transform.localScale = new Vector3(Food_size , Food_size , Food_size );
+        size = Random.RandomRange(1, GameConfig.MaxWeight / 100);
+
+        var weightInPercent = size * 1f / GameConfig.MaxWeight;
+        var scaleModificator = weightInPercent * GameConfig.MaxScale + 1;
+        
+        transform.localScale = new Vector3(scaleModificator , scaleModificator , scaleModificator );
     }
 
     private void OnDestroy()
