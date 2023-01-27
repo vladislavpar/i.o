@@ -8,7 +8,9 @@ public class DifferentFood: MonoBehaviour
 {
     [SerializeField] int lifeTime;
     
-    public float size;
+    public int size;
+
+    private float Food_size;
     private IEnumerator liveCoroutine;
     
     void Start()
@@ -20,8 +22,9 @@ public class DifferentFood: MonoBehaviour
 
     protected virtual void OnStart()
     {
-        size = Random.RandomRange(0.05f,0.5f);
-        transform.localScale = new Vector3(size * 10, size * 10, size * 10);
+        size = Random.RandomRange(1,5);
+        Food_size = Random.RandomRange(0.5f,5f);
+        transform.localScale = new Vector3(Food_size , Food_size , Food_size );
     }
 
     private void OnDestroy()

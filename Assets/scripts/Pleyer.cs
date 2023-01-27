@@ -49,7 +49,7 @@ public class Pleyer:MonoBehaviour
         {
             transform.position = Vector3.Lerp(transform.position, new Vector3(transform.position.x,transform.position.y - speed, transform.position.z), 0.25f);
         }
-        if (weight <= 0 || weight > 20)
+        if (weight <= 0 || weight > 2000)
         {
             DieEndWin?.Invoke(weight);
         }
@@ -58,18 +58,23 @@ public class Pleyer:MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         var food = collision.GetComponent<DifferentFood>();
-        if (food.size <= weight/10)
+        if (food.size <= weight/3)
         {
             weight = weight + food.size;
-            transform.localScale = new Vector3(weight, weight, weight);
-            FoodImage.fillAmount += food.size / 25;
+            transform.localScale = new Vector3(weight/10, weight/10, weight/10);
+            FoodImage.fillAmount += food.size /25 ;
             Destroy(collision.gameObject);
         }
         else
         {
             food.transform.localScale = new Vector3(food.transform.localScale.x / 2, food.transform.localScale.y / 2);
+            if (food.size <= 1)
+            {
+                weight = weight + food.size;
+                transform.localScale = new Vector3(weight/10, weight/10, weight/10);
+            }
             food.size = food.size / 2;
-            FoodImage.fillAmount += food.size / 50;
+            FoodImage.fillAmount += food.size / 150;
         }
     }
     private IEnumerator speed_up_coroutine()
