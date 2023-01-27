@@ -15,8 +15,8 @@ public class FoodSpawner : MonoBehaviour
     [SerializeField] Transform goodFoodParent;
     [SerializeField] Transform badFoodParent;
     
-    private float spawnRateGood = 0.05f;
-    private float spawnRateBad = 0.1f;
+    private float spawnRateGood = 0.1f;
+    private float spawnRateBad = 0.2f;
 
     private void Start()
     {
