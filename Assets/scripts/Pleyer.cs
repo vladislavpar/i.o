@@ -22,6 +22,8 @@ public class Pleyer:MonoBehaviour
     public float weight = 1;
     public float weightgain;
     public float scaleModificator = 10;
+    public bool NormalCameraMove;
+    public Transform food;
 
     private bool stop_coroutine = true;
     private float time;
@@ -31,6 +33,7 @@ public class Pleyer:MonoBehaviour
         PanelWin.SetActive(false);
         PanelDie.SetActive(false);
         Time.timeScale = 1;
+        food = this.gameObject.transform;
     }
     private void Update()
     {
@@ -66,15 +69,17 @@ public class Pleyer:MonoBehaviour
         var food = collision.GetComponent<DifferentFood>();
         if (food.size <= weight/3)
         {
+            NormalCameraMove = true;
             weight = weight + food.size;
-            FoodImage.fillAmount += food.size /25 ;
+            FoodImage.fillAmount += food.size /100;
             Destroy(collision.gameObject);
         }
         else
         {
+            NormalCameraMove = false;
             food.size = food.size / 2;
             weight = weight + food.size;
-            FoodImage.fillAmount += food.size / 150;
+            FoodImage.fillAmount += food.size / 200;
         }
 
         var weightInPercent = weight  / GameConfig.MaxWeight;

@@ -51,7 +51,7 @@ public class UiManager : MonoBehaviour
     }
     public void WinOrDie(float weighe) 
     {
-        if (weighe > 20)
+        if (weighe > 200)
         {
             WIN.SetActive(true);
             Time.timeScale = 0;
