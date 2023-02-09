@@ -10,7 +10,6 @@ public class badPlayer : MonoBehaviour
     [SerializeField] float speed;
     [SerializeField] Rigidbody2D rigidbody;
     [SerializeField] Collider2D collider;
-    [SerializeField] Transform origin;
     [SerializeField] float maxDistans;
 
     public float weight = 1;
@@ -25,29 +24,34 @@ public class badPlayer : MonoBehaviour
         Time.timeScale = 1;
         food = this.gameObject.transform;
     }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.magenta;
+        
+        Gizmos.DrawRay(transform.position, Vector2.up * maxDistans);
+        Gizmos.DrawRay(transform.position, Vector2.right * maxDistans);
+        Gizmos.DrawRay(transform.position, Vector2.left * maxDistans);
+        Gizmos.DrawRay(transform.position, Vector2.down * maxDistans);
+    }
+    
     private void Update()
     {
         Vector3 direction = Vector3.zero;
 
-        Debug.DrawRay(origin.position, Vector2.up,Color.red ,maxDistans);
-        Debug.DrawRay(origin.position, Vector2.right, Color.red, maxDistans);
-        Debug.DrawRay(origin.position, Vector2.left, Color.red, maxDistans);
-        Debug.DrawRay(origin.position, Vector2.down, Color.red, maxDistans);
-
-
-        if (Physics.Raycast(origin.position,Vector2.up,maxDistans,layer))
+        if (Physics2D.Raycast(transform.position,Vector2.up, maxDistans))
         {
             direction.y += 1;
         }
-        if (Physics.Raycast(origin.position, Vector2.right, maxDistans, layer)) 
+        if (Physics2D.Raycast(transform.position, Vector2.right, maxDistans)) 
         {
             direction.x -= 1;
         }
-        if (Physics.Raycast(origin.position, Vector2.left, maxDistans, layer))
+        if (Physics2D.Raycast(transform.position, Vector2.left, maxDistans))
         {
             direction.x += 1;
         }
-        if (Physics.Raycast(origin.position, Vector2.down, maxDistans, layer))
+        if (Physics2D.Raycast(transform.position, Vector2.down, maxDistans))
         {
             direction.y -= 1;
         }

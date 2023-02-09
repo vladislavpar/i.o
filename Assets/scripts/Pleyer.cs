@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using TMPro;
 using System;
 
-public class Pleyer:MonoBehaviour
+public class Pleyer : MonoBehaviour
 {
     public event Action<float> DieEndWin;
 
@@ -19,7 +19,7 @@ public class Pleyer:MonoBehaviour
     [SerializeField] TextMeshProUGUI rooting_time;
 
     private float vertical = 1;
-    public float weight = 1;
+    private float weight = 1;
     public float weightgain;
     public float scaleModificator = 10;
     public bool NormalCameraMove;
@@ -27,7 +27,11 @@ public class Pleyer:MonoBehaviour
 
     private bool stop_coroutine = true;
     private float time;
-    
+
+    public float Weight => weight;
+
+    public event Action<float> WeightChange;
+
     private void Start()
     {
         PanelWin.SetActive(false);
@@ -71,6 +75,7 @@ public class Pleyer:MonoBehaviour
         {
             NormalCameraMove = true;
             weight = weight + food.size;
+            WeightChange?.Invoke(weight);
             FoodImage.fillAmount += food.size /100;
             Destroy(collision.gameObject);
         }
@@ -79,6 +84,7 @@ public class Pleyer:MonoBehaviour
             NormalCameraMove = false;
             food.size = food.size / 2;
             weight = weight + food.size;
+            WeightChange?.Invoke(weight);
             FoodImage.fillAmount += food.size / 200;
         }
 
@@ -92,6 +98,7 @@ public class Pleyer:MonoBehaviour
         while (stop_coroutine)
         {
             weight = weight - speed;
+            WeightChange?.Invoke(weight);
             speed = speed + 0.2f;
             for (int i = 0; i < time*10; i++)
             {

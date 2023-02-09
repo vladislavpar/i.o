@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class MiniMap : MonoBehaviour
 {
-    [SerializeField] GameObject pleyer;
+    [SerializeField] Pleyer pleyer;
     void Start()
     {
         
     }
     void Update()
     {
-        transform.position = new Vector3(transform.position.x, transform.position.y, -pleyer.GetComponent<Pleyer>().weight * 10);
+        transform.position = new Vector3(transform.position.x, transform.position.y, -pleyer.Weight * 10);
     }
 }

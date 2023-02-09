@@ -15,7 +15,7 @@ public class CameraMove : MonoBehaviour
     }
     private void Update()
     {
-        newPosition.z = (-pleyer.transform.localScale.z - camera_scale - (pleyer.weight - pleyer.food.position.z) / camera_modifier) / camera_modifier;
+        newPosition.z = (-pleyer.transform.localScale.z - camera_scale - (pleyer.Weight - pleyer.food.position.z) / camera_modifier) / camera_modifier;
         newPosition.z = Mathf.Round(newPosition.z);
         newPosition.x = pleyer.transform.position.x;
         newPosition.y = pleyer.transform.position.y;
