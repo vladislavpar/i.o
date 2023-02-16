@@ -4,13 +4,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-public class DifferentFood: MonoBehaviour
+public class Food: MonoBehaviour
 {
     [SerializeField] int lifeTime;
     
     public int size;
 
     private IEnumerator liveCoroutine;
+    public event Action<Food> Die;
     
     void Start()
     {
@@ -31,6 +32,7 @@ public class DifferentFood: MonoBehaviour
 
     private void OnDestroy()
     {
+        Die?.Invoke(this);
         if (liveCoroutine != null)
         {
             StopCoroutine(liveCoroutine);

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-public class BadFood : DifferentFood
+public class BadFood : Food
 {
     private float FoodSize;
 

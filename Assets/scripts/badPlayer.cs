@@ -11,6 +11,7 @@ public class badPlayer : MonoBehaviour
     [SerializeField] Rigidbody2D rigidbody;
     [SerializeField] Collider2D collider;
     [SerializeField] float maxDistans;
+    [SerializeField] FoodSpawner spawner;
 
     public float weight = 1;
     public float weightgain;
@@ -19,10 +20,19 @@ public class badPlayer : MonoBehaviour
     public Transform food;
     public LayerMask layer;
 
+    private Food target;
+    private bool isOnTarget = false;
+    private IEnumerator findFoodCorutine;
+    private List<GameObject> triggeredObjects = new List<GameObject>();
+
+
     private void Start()
     {
         Time.timeScale = 1;
-        food = this.gameObject.transform;
+        food = gameObject.transform;
+        
+        findFoodCorutine = FindFood();
+        StartCoroutine(findFoodCorutine);
     }
 
     private void OnDrawGizmos()
@@ -37,47 +47,91 @@ public class badPlayer : MonoBehaviour
     
     private void Update()
     {
-        Vector3 direction = Vector3.zero;
+        // Vector3 direction = Vector3.zero;
+        //
+        // if (Physics2D.Raycast(transform.position,Vector2.up, maxDistans))
+        // {
+        //     direction.y += 1;
+        // }
+        // if (Physics2D.Raycast(transform.position, Vector2.right, maxDistans)) 
+        // {
+        //     direction.x -= 1;
+        // }
+        // if (Physics2D.Raycast(transform.position, Vector2.left, maxDistans))
+        // {
+        //     direction.x += 1;
+        // }
+        // if (Physics2D.Raycast(transform.position, Vector2.down, maxDistans))
+        // {
+        //     direction.y -= 1;
+        // }
+        //
+        // transform.position = Vector3.Lerp(transform.position, transform.position + direction * speed, 0.1f);
+    }
 
-        if (Physics2D.Raycast(transform.position,Vector2.up, maxDistans))
+    private IEnumerator FindFood()
+    {
+        while (spawner.GoodFoodCount < 10)
         {
-            direction.y += 1;
-            Debug.Log("1");
+            yield return null;
         }
-        if (Physics2D.Raycast(transform.position, Vector2.right, maxDistans)) 
+        
+        while (true)
         {
-            Debug.Log("1");
-            direction.x -= 1;
-        }
-        if (Physics2D.Raycast(transform.position, Vector2.left, maxDistans))
-        {
-            Debug.Log("1");
-            direction.x += 1;
-        }
-        if (Physics2D.Raycast(transform.position, Vector2.down, maxDistans))
-        {
-            Debug.Log("1");
-            direction.y -= 1;
-        }
+            if (target == null)
+            {
+                target = spawner.GetNearestFood(transform.position);
+                if (triggeredObjects.Contains(target.gameObject))
+                {
+                    triggeredObjects.Remove(target.gameObject);
+                    Eat();
+                }
+            }
 
-        transform.position = Vector3.Lerp(transform.position, transform.position + direction * speed, 0.1f);
+            if (!isOnTarget)
+            {
+                transform.position = Vector3.Lerp(transform.position, target.transform.position, 1f * Time.deltaTime);
+            }
+            
+            yield return null;
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        var food = collision.GetComponent<DifferentFood>();
-        if (food.size <= weight / 3)
+        if (collision.gameObject != target.gameObject)
         {
-            NormalCameraMove = true;
-            weight = weight + food.size;
-            Destroy(collision.gameObject);
+            triggeredObjects.Add(collision.gameObject);
+            return;
         }
-        else
+
+        isOnTarget = true;
+        
+        Eat();
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (triggeredObjects.Contains(collision.gameObject))
         {
-            NormalCameraMove = false;
-            food.size = food.size / 2;
-            weight = weight + food.size;
+            triggeredObjects.Remove(collision.gameObject);
         }
+        if (target.gameObject == null)
+        {
+            isOnTarget = false;
+            return;
+        }
+        if (collision.gameObject == target.gameObject)
+        {
+            isOnTarget = false;
+        }
+    }
+
+    private void Eat()
+    {
+        weight += target.size;
+        Destroy(target.gameObject);
+        isOnTarget = false;
 
         var weightInPercent = weight / GameConfig.MaxWeight;
         var scaleModificator = weightInPercent * GameConfig.MaxScale + 1;

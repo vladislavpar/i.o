@@ -70,7 +70,7 @@ public class Pleyer : MonoBehaviour
     
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        var food = collision.GetComponent<DifferentFood>();
+        var food = collision.GetComponent<Food>();
         if (food.size <= weight/3)
         {
             NormalCameraMove = true;
