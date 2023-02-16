@@ -42,17 +42,21 @@ public class badPlayer : MonoBehaviour
         if (Physics2D.Raycast(transform.position,Vector2.up, maxDistans))
         {
             direction.y += 1;
+            Debug.Log("1");
         }
         if (Physics2D.Raycast(transform.position, Vector2.right, maxDistans)) 
         {
+            Debug.Log("1");
             direction.x -= 1;
         }
         if (Physics2D.Raycast(transform.position, Vector2.left, maxDistans))
         {
+            Debug.Log("1");
             direction.x += 1;
         }
         if (Physics2D.Raycast(transform.position, Vector2.down, maxDistans))
         {
+            Debug.Log("1");
             direction.y -= 1;
         }
 

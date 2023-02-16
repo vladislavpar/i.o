@@ -1621,7 +1621,7 @@ GameObject:
   - component: {fileID: 807769505}
   - component: {fileID: 807769504}
   - component: {fileID: 807769508}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: badPlayer
   m_TagString: badPlayer
   m_Icon: {fileID: 0}
@@ -1752,10 +1752,10 @@ MonoBehaviour:
   weightgain: 5
   scaleModificator: 10
   NormalCameraMove: 0
-  food: {fileID: 0}
+  food: {fileID: 3119704652011287328, guid: fa603f81baf62a64394ac048f8003eee, type: 3}
   layer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 51
 --- !u!1 &852931792
 GameObject:
   m_ObjectHideFlags: 0
